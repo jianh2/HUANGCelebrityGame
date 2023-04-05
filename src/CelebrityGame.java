@@ -37,8 +37,19 @@ gameCelebrity = null;
 	 *         spaces.
 	 */
 	public boolean processGuess(String guess) {
-		return false; // stub
+		if(guess.trim().toLowerCase().equals(gameCelebrity.getAnswer().toLowerCase())) {
+			celebs.remove(0);
+			if (celebs.size() > 0) {
+				gameCelebrity = celebs.get(0);
+			} else {
+				gameCelebrity = new Celebrity("", "");
+			}
+			return true;
+		}else{
+			return false;
+		}
 	}
+
 
 	/**
 	 * Asserts that the list is initialized and contains at least one Celebrity.
@@ -46,7 +57,13 @@ gameCelebrity = null;
 	 * play screen.
 	 */
 	public void play() {
-		
+
+			if (celebs.size() >= 1 && celebs != null) {
+				gameCelebrity = celebs.get(0);
+				gameWindow.replaceScreen("GAME");
+			}
+
+
 	}
 
 	/**
@@ -57,7 +74,8 @@ gameCelebrity = null;
 	 * @param type  What type of celebrity
 	 */
 	public void addCelebrity(String name, String clue, String type) {
-		
+		Celebrity c = new Celebrity(name,clue);
+		celebs.add(c);
 	}
 
 	/**
@@ -66,7 +84,12 @@ gameCelebrity = null;
 	 * @return If the supplied Celebrity is valid
 	 */
 	public boolean validateCelebrity(String name) {
-		return false; // stub
+	String str = name.trim();
+		 if(str.length() >= 4){
+			 return true;
+		 }else{
+			 return false;
+		 }
 	}
 
 	/**
@@ -76,7 +99,13 @@ gameCelebrity = null;
 	 * @return If the clue is valid.
 	 */
 	public boolean validateClue(String clue, String type) {
-		return false; // stub
+	String str = clue.trim();
+	if(str.length() >= 10){
+		return true;
+	}else{
+		return false;
+	}
+
 	}
 
 	/**
@@ -85,7 +114,7 @@ gameCelebrity = null;
 	 * @return Remaining number of celebrities
 	 */
 	public int getCelebrityGameSize() {
-		return 0;  // stub
+		return celebs.size();  // stub
 	}
 
 	/**
@@ -95,6 +124,6 @@ gameCelebrity = null;
 	 * @return The String clue from the current celebrity.
 	 */
 	public String sendClue() {
-		return null; // stub
+		return gameCelebrity.getClue(); // stub
 	}
 }

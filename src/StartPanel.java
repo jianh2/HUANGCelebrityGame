@@ -19,9 +19,28 @@ import javax.swing.SpringLayout;
 public class StartPanel extends JPanel implements ActionListener {
   /**
    * Reference to the Game to call methods.
-   */public void actionPerformed(ActionEvent ae){
+   */
+  public void actionPerformed(ActionEvent ae) {
+    Object source = ae.getSource();
+    JButton clickedButton = (JButton) source;
+    String buttonText = clickedButton.getText();
+    if(buttonText.equals("Add current celebrity")){
+    answerField.setBackground(Color.WHITE);
+    clueField.setBackground(Color.WHITE);
+    if (validate(answerField.getText(), clueField.getText())) {
+      addToGame();
+    } else {
+      invalidInput();
+    }
+    celebrityCount = controller.getCelebrityGameSize();
+    celebrityCountLabel.setText(countLabelText + celebrityCount);
+  }else if(buttonText.equals("Start Celebrity game")){
 
+    controller.play();
   }
+
+}
+
   private CelebrityGame controller;
   
   /**
@@ -109,7 +128,7 @@ public class StartPanel extends JPanel implements ActionListener {
     clueLabel = new JLabel(celebrityClue);
 
     answerField = new JTextField("May I take your order");
-    clueField = new JTextField("Enter the name of the menu item(10 letters min)");
+    clueField = new JTextField("Enter celebrity clue here (10 letters min)");
     addCelebrityButton = new JButton("Add current celebrity");
     startButton = new JButton("Start Celebrity game");
     celebrityCount = 0;
@@ -177,7 +196,7 @@ public class StartPanel extends JPanel implements ActionListener {
   private void setupListeners() {
 
     addCelebrityButton.addActionListener(this);
-
+    startButton.addActionListener(this);
     // when "add celebrity" button gets clicked:
     answerField.setBackground(Color.WHITE);
     clueField.setBackground(Color.WHITE);
